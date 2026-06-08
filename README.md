@@ -12,7 +12,6 @@ This project demonstrates core concepts essential for flight control systems:
  ## Problem Statement
 - Photodiode sensors operating across varying light conditions, designed to avoid weak signals or saturation, require either:
 (1) **fixed gain**- limited dynamic range, poor resoluion in dim/bright conditions
-
 (2) **Manual gain adjustment**- Requires tedious user intervention, impracticla for autonomous systems
 
   **Solution:** Microcontroller-driven multiplexed feedback network with autonomous gain optimization, enabling continuous operation across varying light conditions.
