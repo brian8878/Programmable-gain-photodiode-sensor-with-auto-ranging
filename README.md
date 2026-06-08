@@ -12,14 +12,18 @@ This project demonstrates core concepts essential for flight control systems:
  ## Problem Statement
 - Photodiode sensors operating across varying light conditions, designed to avoid weak signals or saturation, require either:
  (1) **fixed gain**- limited dynamic range, poor resoluion in dim/bright conditions
+
  (2) **Manual gain adjustment**- Requires tedious user intervention, impracticla for autonomous systems
 
   **Solution:** Microcontroller-driven multiplexed feedback network with autonomous gain optimization, enabling continuous operation across varying light conditions.
 
 - ---
 
-##System Architecture
+## System Architecture
 
-###Block Diagram
+### Block Diagram
 
 [Circuit Block Diagram]<img width="6280" height="2155" alt="Photodiode Signal-2026-06-08-190715" src="https://github.com/user-attachments/assets/6a5aaea9-053e-4c1b-ae8d-e6f9e93b23ca" />
+
+### Design approach: programmable gain network
+
