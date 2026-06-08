@@ -26,13 +26,15 @@ This project demonstrates core concepts essential for flight control systems:
 
 ### Component selection: Auto ranging programmable gain network
 #### Photodiode SFH203
-- Selected for its fast response, high sensitivity, and still optimal if spectral wavelength estimation is added. 
+- Selected for its fast response, high sensitivity, and optimality if spectral wavelength estimation is included in future versions. 
 #### OPO7CP Dual supply OPAMP
--Selected for low noise characteristic and wide-range voltage supply. Compatible to serve as TIA configuration and buffer. 
+-Selected for its low noise and wide-ranging supply voltage. Compatible to serve as TIA configuration and buffer. 
 #### CD4051BE IC MUX 8:1 240OHM 16DIP
--- Selected for wide range od digital and analog signals. Appropriate dual supply range.
+- Selected for wide range of acceptable digital and analog signals. Appropriate dual supply range.
 #### 10KΩ, 100KΩ, 1MΩ, 3.3MΩ resistors
---
+- Selected to account for extremely weak signals and oversaturating signals. Allows for wide dynamic range.
+#### Arduino nano every microcontroller
+- 
 ### Design approach: Auto ranging programmable gain network
 
 
