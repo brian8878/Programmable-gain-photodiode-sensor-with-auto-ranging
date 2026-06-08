@@ -1,8 +1,6 @@
 # Programmable-gain-photodiode-sensor-with-auto-ranging-network
 
-A precision analog sensor interface featuring a transimpedance amplifier with microcontroller-driven au<img width="6280" height="2155" alt="Photodiode Signal-2026-06-08-190715" src="https://github.com/user-attachments/assets/2fb884cf-afc6-4366-a589-67430fa5430e" />
-![Uploading Photodiode Signal-2026-06-08-190945.svg…]()
-tomatic feedback resistor switching to prevent saturation and amplify weaker signals. Demonstrates mixed-signal circuit design, real-time embedded control, and 2000x dynamic range measurement capability.
+A precision analog sensor interface featuring a transimpedance amplifier with microcontroller-driven automatic feedback resistor switching to prevent saturation and amplify weaker signals. Demonstrates mixed-signal circuit design, real-time embedded control, and 2000x dynamic range measurement capability.
 
 ## Project Motivation
 This project demonstrates core concepts essential for flight control systems:
