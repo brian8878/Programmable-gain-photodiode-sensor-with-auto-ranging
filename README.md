@@ -25,7 +25,14 @@ This project demonstrates core concepts essential for flight control systems:
 [Circuit Block Diagram]<img width="6280" height="2155" alt="Photodiode Signal-2026-06-08-190715" src="https://github.com/user-attachments/assets/6a5aaea9-053e-4c1b-ae8d-e6f9e93b23ca" />
 
 ### Component selection: Auto ranging programmable gain network
-#### dk
+#### Photodiode SFH203
+- Selected for its fast response, high sensitivity, and still optimal if spectral wavelength estimation is added. 
+#### OPO7CP Dual supply OPAMP
+-Selected for low noise characteristic and wide-range voltage supply. Compatible to serve as TIA configuration and buffer. 
+#### CD4051BE IC MUX 8:1 240OHM 16DIP
+-- Selected for wide range od digital and analog signals. Appropriate dual supply range.
+#### 10KΩ, 100KΩ, 1MΩ, 3.3MΩ resistors
+--
 ### Design approach: Auto ranging programmable gain network
 
 
