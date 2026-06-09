@@ -101,6 +101,7 @@ Outcome: TIA operation restored, proper current-to-voltage conversion
 
 #### Feedback Stabilization (2/26)
 Problem: Oscillation in TIA output Solution: 10pF capacitor in parallel with 3.3MΩ feedback resistor (Measured actual: 3.27 MΩ) Result: Stable output across gain settings
+
 ---
 
 ### Phase 3: Environmental & Measurement Conditions (2/26)
@@ -130,17 +131,22 @@ iPhone light: 354 mV (3-5" away) → ~35.4 µA photocurrent
 - Use LEDs as visual feedback for threshold logic
 
 **Buffer Stage Added (2/16):**
-TIA Output: 205 mV Buffer Output: 195 mV (voltage follower, minimal loss) Purpose: Isolate TIA from ADC input impedance
+TIA Output: 205 mV Buffer 
+Output: 195 mV (voltage follower, minimal loss)
+Purpose: Isolate TIA from ADC input impedance
 
 ---
 
 ### Phase 5: Microcontroller & GPIO Testing (2/18-2/19)
 
 #### GPIO LED Control
-Objective: Verify microcontroller GPIO before integrating sensor Test Setup: External LED + 680Ω current-limiting resistor (used 3× 680Ω in parallel for lower resistance) Result: ✓ GPIO control functional
+Objective: Verify microcontroller GPIO before integrating sensor Test Setup: External LED + 680Ω current-limiting resistor (used 3× 680Ω in parallel for lower resistance) 
+Result: GPIO control functional
 
 #### Critical Discovery (2/19)
-Problem: GPIO control code not working despite correct logic Troubleshooting: Verified pin numbering (D2 vs PD2), code logic Root Cause: Microcontroller board not fully seated in breadboard Solution: Pressed board down until fully inserted Result: ✓ All GPIO control now working
+Problem: GPIO control code not working despite correct logic Troubleshooting: Verified pin numbering (D2 vs PD2), code logic Root Cause: Microcontroller board not fully seated in breadboard 
+Solution: Pressed board down until fully inserted 
+Result:  All GPIO control now working
 
 **Learning:** Simple physical issues can masquerade as software bugs. Always verify hardware connectivity before debugging code.
 
@@ -154,18 +160,26 @@ Discovery: 5V / 1023 provides adequate resolution Upgrade: Changed to 4.096V / 1
 Formula: Voltage = (ADC_value × V_ref) / 1024 Voltage = (ADC_value × 4.096) / 1023
 
 #### LED Threshold Testing
-ADC Readings (Room Conditions): Covered (dark): ~11 ADC counts Normal room light: ~70 ADC counts Direct light: ~700 ADC counts
+ADC Readings (Room Conditions): Covered (dark): 11 ADC counts 
+Normal room light: 70 ADC counts 
+Direct light: 700 ADC counts
 
-LED Response: Expected ON: Threshold set to 2V Actual ON: ~0.6-0.9V Adjusted: Set threshold to 2V to avoid false triggers
+LED Response: Expected ON: Threshold set to 2V 
+Actual ON: 0.6-0.9V 
+Adjusted: Set threshold to 2V to avoid false triggers
 
-#### Critical GPIO Bug (2/19)
-Problem: LED would not turn on despite correct ADC readings Serial Debug: Added Serial.print() to monitor ADC values Confirmed voltage signal reaching ADC (700 counts with light) Root Cause: LED accidentally removed from ground connection Solution: Reconnected LED to ground Result: ✓ LED threshold logic now functional
+#### Critical GPIO Bug (2/26)
+Problem: LED would not turn on despite correct ADC readings 
+Serial Debug: Added Serial.print() to monitor ADC values Confirmed voltage signal reaching ADC (700 counts with light) 
+Root Cause: LED accidentally removed from ground connection 
+Solution: Reconnected LED to ground 
+Result: LED threshold logic now functional
 
 **Learning:** When hardware "works in pieces but not together," check mechanical connections before code. Multimeter + Serial.print() are essential debugging tools.
 
 ---
 
-### Phase 7: Fixed Resistor Testing (2/24)
+### Phase 7: Fixed Resistor Testing (2/26)
 
 #### Voltage Calibration
 Power Supply: Vcc = +5.05V, GND = -5.1V (allowing for voltage drop measurements)
@@ -176,10 +190,11 @@ Threshold Mapping: ADC 358: Voltage = 1.75V (OFF threshold) ADC 410: Voltage = 2
 
 ---
 
-### Phase 8: Multiplexer Verification (2/27-2/28)
+### Phase 8: Multiplexer Verification (2/26)
 
 #### MUX Functionality Check
-Test Method: Ground and +5V on select inputs Serial.print() to verify addressing Result: ✓ MUX control working correctly
+Test Method: Ground and +5V on select inputs Serial.print() to verify addressing 
+Result: MUX control working correctly
 
 #### Auto-Ranging Code Structure
 Headers Created:
@@ -192,7 +207,7 @@ Thresholds Set: Upper: 4.0V (prevent saturation) Lower: 0.9V (prevent noise-trig
 
 ---
 
-### Phase 9: Breadboard Leakage Current Issues (3/1-3/2)
+### Phase 9: Breadboard Leakage Current Issues (3/26)
 
 #### Unexpected Behavior
 Initial Observation: Output stuck at 3.5V regardless of resistor Inverting input: ~150mV Non-inverting input: ~0V
@@ -213,12 +228,12 @@ Solution: Temporarily use lower resistance values on breadboard Defer high-imped
 
 ---
 
-### Phase 10: System Integration & Auto-Ranging Refinement (3/1-3/5)
+### Phase 10: System Integration & Auto-Ranging Refinement (3/26)
 
-#### First Integration Success (3/1)
+#### First Integration Success (3/26)
 Serial Print Rate: Initially too fast to monitor Solution: Added rate limiting via millis() if (millis() - lastPrint > 500) { ... } Result: Readable output every ~500ms
 
-#### Rapid Switching Problem (3/1-3/5)
+#### Rapid Switching Problem (3/26)
 
 **Initial Issue:**
 With 3M resistor in bright light: Voltage exceeds 3.8V → Switch to 1M Voltage drops below threshold → Switch back to 3M Result: Rapid oscillation between resistors
@@ -226,7 +241,7 @@ With 3M resistor in bright light: Voltage exceeds 3.8V → Switch to 1M Voltage 
 **Attempted Solution #1:** Require multiple threshold crossings
 Change counter: 2, then 4 consecutive readings Result: Still oscillated, just slower
 
-**Final Solution (3/5):** Hysteresis-based ranges
+**Final Solution (3/26):** Hysteresis-based ranges
 Instead of single upper/lower threshold:
 
 State: 3M (highest gain) if V > 3.8V → switch to 1M else → stay at 3M
@@ -237,7 +252,7 @@ State: 100K if V > 3.8V → switch to 10K else if V < 0.5V → switch to 1M else
 
 State: 10K (lowest gain) if V < 0.5V → switch to 100K else → stay at 10K
 
-Result: ✓ Smooth transitions, no oscillation
+Result: Smooth transitions, no oscillation
 
 ---
 
@@ -277,24 +292,30 @@ More rigorous layout review before fabrication
 
 <img width="537" height="293" alt="Screenshot 2026-06-09 093257" src="https://github.com/user-attachments/assets/db7dd072-d1a5-45d2-8491-5fec8c04e413" />
 
-### Debugging toold & techniques used
-Serial.print() - Real-time variable monitoring
-Multimeter - Voltage/current verification at each node
-Oscilloscope (implied) - Checking for ringing/oscillation
-Video documentation - Recording transient behavior
-Modular testing - Isolate subsystems before integration
-Datasheet cross-reference - Verify assumptions about components
+### Debugging toold & techniques 
+1. Serial.print(), real-time variable monitoring
+2. Multimeter, Voltage/current verification at each node
+3. Oscilliscope, checking for oscillation and settling
+4. video documentation, recoding transient behavior and visual feedback
+5. modula testing, isolate subsystems before integration
+6. datasheet cross reference, verify information about components, no assumptions. 
+
 
 ### Mistakes to avoid (Learned Hard Way)
-❌ Don't assume error messages are real failures
-❌ Don't skip component-level testing
-❌ Don't ignore op-amp supply requirements
-❌ Don't use breadboard for high-impedance circuits (>1MΩ)
-❌ Don't debug software without verifying hardware connections
-❌ Don't set thresholds without hysteresis margin
-❌ Don't print too frequently in loops (slows debugging)
-✓ Do test subsystems independently ✓ Do verify physical connections first ✓ Do add margins to thresholds ✓ Do use rate limiting for output ✓ Do keep detailed logs/videos
+1. Don't assume error messages are real failures
+2. Don't skip component level testing
+3. Don't ignore op-amp supply requirements
+4. Don't debug software without verifying hardware connections
+5. Don't set thresholds without hysteresis margin
+6. Don't print too frequently in loops
+### Do's
+1. Test subsystems independently
+2. Verify physical connections first
+3. Add margins to thresholds
+4. Rate limiting for output speed
+5. Keep detailed logs/videos
 
+---
 ## Skills Demonstrated
 - Analog circuit design (transimpedance amplifier)
 - Microcontroller programming (Arduino)
