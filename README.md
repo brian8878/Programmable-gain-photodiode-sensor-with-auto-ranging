@@ -44,18 +44,7 @@ The Photodiode (configured in reverse bias) feeds into the inverting input of th
 
 ## Data and Results
 ### 100KΩ
-Timestamp (ms)	10141 10697 11256 11814 12371 12930 13487 14043
-Voltage (V)	 2.715 2.710
-Photocurrent (µA)	
-Irradiance (µW/W)	
-ADC
-10141	2.715054	0.0272	0.0438	556
-10697	2.710166	0.0271	0.0437	555
-11256	2.710166	0.0271	0.0437	555
-11814	2.715054	0.0272	0.0438	555
-12371	2.704057	0.0270	0.0435	553
-12930	2.712610	0.0271	0.0437	556
-13487	2.713832	0.0271	0.0438	555
-14043	2.705279	0.0271	0.0436	554
+<img width="425" height="227" alt="Screenshot 2026-06-09 090041" src="https://github.com/user-attachments/assets/943580c9-6aa3-4c13-9571-64480db02f9d" />
+
 
 
