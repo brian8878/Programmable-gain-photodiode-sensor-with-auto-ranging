@@ -55,6 +55,7 @@ The Photodiode (configured in reverse bias) feeds into the inverting input of th
 ### Data @ 3.3MΩ
 <img width="425" height="228" alt="Screenshot 2026-06-09 090318" src="https://github.com/user-attachments/assets/00be1333-676e-4239-b11f-1c8061fbc950" />
 
+---
 ## Process & debugging
 ### Phase 1: Initial set up
 **Initial Challenge: Arduino IDE Configuration**
@@ -72,28 +73,37 @@ The Photodiode (configured in reverse bias) feeds into the inverting input of th
 **Root Cause:** The error was an automatic IDE message, not an actual fault. This was actually a valuable lesson in distinguishing real failures from false alarms during embedded systems debugging.
 
 **Learning:** Environmental issues are often the first thing to investigate, but also the easiest to misdiagnose without careful verification.
-
+---
 ### Phase 2: component level testing
+
 **Strategy:** Test each subsystem in isolation before integration.
+
 #### Photodiode Testing (2/26)
 Component: SFH 203 Photodiode Test Setup: 33.67 kΩ load resistor (nominal 33k, measured 32.67k) Cathode: +5V, Anode: → 33kΩ → GND Light Source: iPhone 15 Pro Max camera light
 
 Results: No light: <70 mV Close (3"): 300-400 mV Medium (6"): 200-300 mV Far (12"): 70-130 mV
 
-Conclusion: ✓ Photodiode functional across distance range Evidence: Video documentation saved
+Conclusion: Photodiode functional across distance range Evidence: Video documentation saved.
 
 #### Op-Amp Biasing Issue (2/26)
 
 **Problem Discovered:** OP07CP is not rail-to-rail or single-supply compatible
-Initial Setup: 0V to +5V single supply Observed Issue: Inverting input floating at ~1.2V (not at virtual ground) Impact: TIA transimpedance formula broken V_out = I_photo × R_f no longer valid
+Initial Setup: 0V to +5V single supply 
+Observed Issue: Inverting input floating at ~1.2V (not at virtual ground)
+Impact: TIA transimpedance formula broken V_out = I_photo × R_f no longer valid
+
 **Solution Implemented:**
-Changed to: Dual supply ±3.3V (total 6.6V range) Result: Inverting input now correctly at 0V virtual ground Outcome: ✓ TIA operation restored, proper current-to-voltage conversion
+Changed to: Dual supply ±3.3V (total 6.6V range) 
+Result: Inverting input now correctly at 0V virtual ground 
+Outcome: TIA operation restored, proper current-to-voltage conversion
 
 **Learning:** Op-amp supply requirements are critical. Single-supply op-amps require specific input/output range considerations. Always check datasheet rail-to-rail specifications.
 
 #### Feedback Stabilization (2/26)
 Problem: Oscillation in TIA output Solution: 10pF capacitor in parallel with 3.3MΩ feedback resistor (Measured actual: 3.27 MΩ) Result: Stable output across gain settings
-### Phase 3: Environmental & Measurement Conditions (2/16)
+---
+
+### Phase 3: Environmental & Measurement Conditions (2/26)
 
 **Controlled Light Environment:**
 - Closed curtains and covered windows
@@ -101,9 +111,13 @@ Problem: Oscillation in TIA output Solution: 10pF capacitor in parallel with 3.3
 - More consistent, repeatable measurements
 
 **Calibration Data (2/16):**
-3.3M Resistor: Dark room: 143.3 mV → 44 nA photocurrent iPhone light: 3.2V (3-5" away) → ~975 nA photocurrent
+3.3M Resistor: 
+Dark room: 143.3 mV → 44 nA photocurrent 
+iPhone light: 3.2V (3-5" away) → ~975 nA photocurrent
 
-10K Resistor: Dark room: 0.4 mV → 40 nA photocurrent iPhone light: 354 mV (3-5" away) → ~35.4 µA photocurrent
+10K Resistor: 
+Dark room: 0.4 mV → 40 nA photocurrent 
+iPhone light: 354 mV (3-5" away) → ~35.4 µA photocurrent
 **Note:** Measurements at uncontrolled distances; proportional analysis not valid.
 
 ---
