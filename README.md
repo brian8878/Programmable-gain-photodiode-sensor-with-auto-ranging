@@ -398,7 +398,7 @@ void loop() {
 }
 ```
 ### ADC reading (adc.h/adc.cpp)
-```
+```cpp
 #ifndef ADC_H
 #define ADC_H
 
@@ -428,7 +428,8 @@ float getVoltage()
 }
 ```
 ### Resistor switching/multiplexer control (resistor_switching.h / resistor_switching.cpp)
-```
+
+```cpp
 #ifndef RES_SWITCH_H
 #define RES_SWITCH_H
 
@@ -484,7 +485,8 @@ else if (Rf_index == 3)
 }
 ```
 Sensor State & Data Logging (sensor_state.h / sensor_state.cpp)
-```
+
+```cpp
 #ifndef SENSOR_STATE_H
 #define SENSOR_STATE_H
 
