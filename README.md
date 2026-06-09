@@ -328,9 +328,217 @@ More rigorous layout review before fabrication
 - UART communication
 - Problem-solving under constraints
 
-## Future Improvements
+## Code Implementation
+
+### Main Program (main.ino)
+
+```cpp
+#include "adc.h"
+#include "resistor_switching.h"
+#include "Sensor_state.h"
+
+int Rf_index = 0;
+char RfLabel[4][5] = {"10K", "100K", "1M", "3M"};
+float resistance[4] = {10000.0, 100000.0, 1000000.0, 3000000.0};
+sensorData data;
+
+void setup() {
+  Serial.begin(9600);
+  resInit();
+  resSelct(0);
+  delay(50);
+  getVoltage();
+}
+
+void loop() {
+  float Voltage = getVoltage();
+  int newIndex = Rf_index;
+  readADC();
+
+  static unsigned long lastSwitch = 0;
+  const unsigned long SWITCH_DELAY = 500;
+
+  // Auto-ranging logic with hysteresis
+  if (Rf_index == 0) { // Currently at 10K
+    if (Voltage < 0.5) newIndex = 1;    // Switch to 100K if too low
+  }
+  else if (Rf_index == 1) { // Currently at 100K
+    if (Voltage < 0.5) newIndex = 2;    // Switch to 1M if too low
+    else if (Voltage > 3.8) newIndex = 0; // Switch to 10K if too high
+  }
+  else if (Rf_index == 2) { // Currently at 1M
+    if (Voltage < 0.5) newIndex = 3;    // Switch to 3M if too low
+    else if (Voltage > 3.8) newIndex = 1; // Switch to 100K if too high
+  }
+  else if (Rf_index == 3) { // Currently at 3M
+    if (Voltage > 3.8) newIndex = 2;    // Switch to 1M if too high
+  }
+
+  if (newIndex < 0) newIndex = 0;
+  if (newIndex > 3) newIndex = 3;
+
+  // Debounce: prevent switching more than once per SWITCH_DELAY
+  if (newIndex != Rf_index && millis() - lastSwitch > SWITCH_DELAY) {
+    Serial.print("SWITCH TRIGGERED: ");
+    Serial.print(Rf_index);
+    Serial.print(" -> ");
+    Serial.println(newIndex);
+    Rf_index = newIndex;
+    resSelct(Rf_index);
+    lastSwitch = millis();
+    delay(200); // Give circuit time to settle
+  }
+
+  // Print data every 500ms to avoid Serial spam
+  static unsigned long lastPrint = 0;
+  if (millis() - lastPrint > 500) {
+    logAndUpdate(data);
+    lastPrint = millis();
+  }
+}
+```
+### ADC reading (adc.h/adc.cpp)
+```
+#ifndef ADC_H
+#define ADC_H
+
+float getVoltage();
+int readADC();
+
+#endif
+---
+#include "adc.h"
+#include <Arduino.h>
+
+int readADC()
+{
+  return analogRead(A0);
+}
+
+float getVoltage()
+{
+  float sum = 0;
+  for(int i = 0; i < 4; i++)
+  {
+    sum += readADC();
+  }
+  float rawADC ;
+  rawADC = sum/4.0;
+  return rawADC * (5.0/1023.0);
+}
+```
+### Resistor switching/multiplexer control (resistor_switching.h / resistor_switching.cpp)
+```
+#ifndef RES_SWITCH_H
+#define RES_SWITCH_H
+
+void resSelct(int Rf_index);
+void resInit();
+
+#endif
+
+---
+#include "resistor_switching.h"
+#include <Arduino.h>
+
+int A_bit = 2;
+int B_bit = 3;
+int C_bit = 4;
+
+void resInit()
+{
+  pinMode(A_bit, OUTPUT);
+  pinMode(B_bit, OUTPUT);
+  pinMode(C_bit, OUTPUT);
+}
 
 
+void resSelct(int Rf_index)
+{
+if (Rf_index == 0)
+{
+  digitalWrite(A_bit, LOW);
+  digitalWrite(B_bit, LOW);
+  digitalWrite(C_bit, LOW);
+}
+else if (Rf_index == 1)
+{
+  digitalWrite(A_bit, HIGH);
+  digitalWrite(B_bit, LOW);
+  digitalWrite(C_bit, LOW);
+}
+else if (Rf_index ==2)
+{
+  digitalWrite(A_bit, LOW);
+  digitalWrite(B_bit, HIGH);
+  digitalWrite(C_bit, LOW);
+}
+else if (Rf_index == 3)
+{
+  digitalWrite(A_bit, HIGH);
+  digitalWrite(B_bit, HIGH);
+  digitalWrite(C_bit, LOW);
+}
+
+
+}
+```
+Sensor State & Data Logging (sensor_state.h / sensor_state.cpp)
+```
+#ifndef SENSOR_STATE_H
+#define SENSOR_STATE_H
+
+typedef struct{
+  float Voltage;
+  float feedback_res;
+  float photocurrent;
+  float irradiance;
+  int rawADC;
+}sensorData;
+void logAndUpdate(sensorData &data);
+#endif
+
+---
+
+#include "sensor_state.h"
+#include "adc.h"
+#include "resistor_switching.h"
+#include <arduino.h>
+
+extern char RfLabel[4][5];
+extern float resistance[4];//used for photocurrent formula
+extern int Rf_index;
+float responsivity = 0.62;//A/W (amperes per Watt)
+extern float Voltage;
+
+
+
+
+void logAndUpdate(sensorData &data) {
+   data.Voltage = getVoltage();
+ data.feedback_res = resistance[Rf_index];
+
+ if(resistance[Rf_index] != 0)//no division by zero, just a safety parameter
+ {
+  data.photocurrent = (data.Voltage/data.feedback_res) *1e6;//take voltage and feedback resistance to calculate photocurrent, convert to microamps
+ } else {data.photocurrent = 0; }
+data.irradiance = (data.photocurrent/responsivity);
+data.rawADC = readADC();
+
+
+ Serial.print(millis());
+ Serial.print("ms | voltage: ");
+ Serial.print(data.Voltage, 6);
+ Serial.print(" | resistor: ");
+ Serial.print(RfLabel[Rf_index]);
+ Serial.print(" | photocurrent (µA): ");
+ Serial.print(data.photocurrent, 6);
+ Serial.print("| irradiance @ 850nm in A/W: ");
+ Serial.print(data.irradiance, 6);
+ Serial.print(" | ADC: ");
+ Serial.println(data.rawADC);  }
+
+```
 
 
 
