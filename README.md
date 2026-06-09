@@ -43,8 +43,17 @@ This project demonstrates core concepts essential for flight control systems:
 The Photodiode (configured in reverse bias) feeds into the inverting input of the Operational amplifier (Op-Amp) which has a trans impedance amplifier (TIA) configuration. The inverting input also receives the feedback transistor and feedback resistors. The common pin of the Mulitiplexer (MUX) is sent to the inverting node of the TIA. The channels 0-3 each respectively hold a resistor value and connect to the output (pin 6) of the TIA. The channel select pins of the MUX (A, B, C respectively) connect to the digital pins 2, 3, 4 of the microcontroller. The non-inverting node of the TIA goes to ground holding both nodes, ideally, at zero. The output of the TIA then feeds into the non-inverting input of a buffer circuit. The buffer circuit is also an Op-Amp but configured as a voltage follower. This is included to reduce too much loading on any part of the circuit. The inverting node has a wire connected to the output. The output of the buffer circuit then feeds into the Arduino Nano Every A0 pin which is an analog input pin. All ground pins are connected for TIA, MUX, buffer, and microcontroller. The TIA, MUX, and buffer are all dual power supply integrated circuits (IC's) and referenced with ± 5 volts. The microcontroller however has been powered by my PC. Firmware written with Arduino's built in library is then uploaded to microcontroller that takes the voltage and converts it into digital steps. Resistor switching uses threshold logic to maintain desireable output voltage. Voltage, feedback resistance, photocurrent, irradiance, and ADC value are all calculated. 
 
 ## Data and Results
-### 100KΩ
+### Data @ 10KΩ
+<img width="428" height="155" alt="Screenshot 2026-06-09 090445" src="https://github.com/user-attachments/assets/708ea4b9-eca4-4cde-9fdd-1bb8faf657af" />
+### Data @ 100KΩ
 <img width="425" height="227" alt="Screenshot 2026-06-09 090041" src="https://github.com/user-attachments/assets/943580c9-6aa3-4c13-9571-64480db02f9d" />
+### Data @ 1MΩ
+<img width="428" height="154" alt="Screenshot 2026-06-09 090824" src="https://github.com/user-attachments/assets/7022fe32-2402-4bf8-8049-a8df94d7d39c" />
+### Data @ 3.3MΩ
+<img width="425" height="228" alt="Screenshot 2026-06-09 090318" src="https://github.com/user-attachments/assets/00be1333-676e-4239-b11f-1c8061fbc950" />
+
+
+
 
 
 
