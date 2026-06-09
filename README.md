@@ -43,6 +43,15 @@ This project demonstrates core concepts essential for flight control systems:
 The Photodiode (configured in reverse bias) feeds into the inverting input of the Operational amplifier (Op-Amp) which has a trans impedance amplifier (TIA) configuration. The inverting input also receives the feedback transistor and feedback resistors. The common pin of the Mulitiplexer (MUX) is sent to the inverting node of the TIA. The channels 0-3 each respectively hold a resistor value and connect to the output (pin 6) of the TIA. The channel select pins of the MUX (A, B, C respectively) connect to the digital pins 2, 3, 4 of the microcontroller. The non-inverting node of the TIA goes to ground holding both nodes, ideally, at zero. The output of the TIA then feeds into the non-inverting input of a buffer circuit. The buffer circuit is also an Op-Amp but configured as a voltage follower. This is included to reduce too much loading on any part of the circuit. The inverting node has a wire connected to the output. The output of the buffer circuit then feeds into the Arduino Nano Every A0 pin which is an analog input pin. All ground pins are connected for TIA, MUX, buffer, and microcontroller. The TIA, MUX, and buffer are all dual power supply integrated circuits (IC's) and referenced with ± 5 volts. The microcontroller however has been powered by my PC. Firmware written with Arduino's built in library is then uploaded to microcontroller that takes the voltage and converts it into digital steps. Resistor switching uses threshold logic to maintain desireable output voltage. Voltage, feedback resistance, photocurrent, irradiance, and ADC value are all calculated. 
 
 ## Data and Results
-input of 
+### 100KΩ
+Timestamp (ms)	Voltage (V)	Photocurrent (µA)	Irradiance (µW/W)	ADC
+10141	2.715054	0.0272	0.0438	556
+10697	2.710166	0.0271	0.0437	555
+11256	2.710166	0.0271	0.0437	555
+11814	2.715054	0.0272	0.0438	555
+12371	2.704057	0.0270	0.0435	553
+12930	2.712610	0.0271	0.0437	556
+13487	2.713832	0.0271	0.0438	555
+14043	2.705279	0.0271	0.0436	554
 
 
