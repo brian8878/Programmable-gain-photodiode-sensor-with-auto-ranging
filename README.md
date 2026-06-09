@@ -45,10 +45,13 @@ The Photodiode (configured in reverse bias) feeds into the inverting input of th
 ## Data and Results
 ### Data @ 10KΩ
 <img width="428" height="155" alt="Screenshot 2026-06-09 090445" src="https://github.com/user-attachments/assets/708ea4b9-eca4-4cde-9fdd-1bb8faf657af" />
+
 ### Data @ 100KΩ
 <img width="425" height="227" alt="Screenshot 2026-06-09 090041" src="https://github.com/user-attachments/assets/943580c9-6aa3-4c13-9571-64480db02f9d" />
+
 ### Data @ 1MΩ
 <img width="428" height="154" alt="Screenshot 2026-06-09 090824" src="https://github.com/user-attachments/assets/7022fe32-2402-4bf8-8049-a8df94d7d39c" />
+
 ### Data @ 3.3MΩ
 <img width="425" height="228" alt="Screenshot 2026-06-09 090318" src="https://github.com/user-attachments/assets/00be1333-676e-4239-b11f-1c8061fbc950" />
 
