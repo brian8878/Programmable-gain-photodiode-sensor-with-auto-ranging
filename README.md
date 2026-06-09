@@ -272,8 +272,10 @@ Code Organization
 Modular functions for each subsystem
 Serial logging of all sensor values
 Real-time resistor state tracking
-Phase 12: PCB Design (3/27-3/30)
+
+## Phase 12: PCB Design (3/26)
 Initial Challenges
+
 Code
 Component Placement:  Multiple board reorganizations
                       Difficult to route without overlaps
