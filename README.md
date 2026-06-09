@@ -238,6 +238,7 @@ struct sensorData {
   float irradiance;           // Calculated intensity
   int rawADC;                 // 10-bit ADC reading
 };
+```
 Code Organization
 Modular functions for each subsystem
 Serial logging of all sensor values
@@ -260,6 +261,25 @@ Switch from surface-mount to through-hole resistors/capacitors
 Better component orientation for soldering
 More rigorous layout review before fabrication
 
+<img width="537" height="293" alt="Screenshot 2026-06-09 093257" src="https://github.com/user-attachments/assets/db7dd072-d1a5-45d2-8491-5fec8c04e413" />
+
+### Debugging toold & techniques used
+Serial.print() - Real-time variable monitoring
+Multimeter - Voltage/current verification at each node
+Oscilloscope (implied) - Checking for ringing/oscillation
+Video documentation - Recording transient behavior
+Modular testing - Isolate subsystems before integration
+Datasheet cross-reference - Verify assumptions about components
+
+### Mistakes to avoid (Learned Hard Way)
+❌ Don't assume error messages are real failures
+❌ Don't skip component-level testing
+❌ Don't ignore op-amp supply requirements
+❌ Don't use breadboard for high-impedance circuits (>1MΩ)
+❌ Don't debug software without verifying hardware connections
+❌ Don't set thresholds without hysteresis margin
+❌ Don't print too frequently in loops (slows debugging)
+✓ Do test subsystems independently ✓ Do verify physical connections first ✓ Do add margins to thresholds ✓ Do use rate limiting for output ✓ Do keep detailed logs/videos
 
 ## Skills Demonstrated
 - Analog circuit design (transimpedance amplifier)
@@ -272,6 +292,7 @@ More rigorous layout review before fabrication
 - Problem-solving under constraints
 
 ## Future Improvements
+
 
 
 
