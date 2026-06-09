@@ -1,6 +1,6 @@
 # Programmable-gain-photodiode-sensor-with-auto-ranging-network
 
-A precision analog sensor interface featuring a transimpedance amplifier with microcontroller-driven automatic feedback resistor switching to prevent saturation and amplify weaker signals. Demonstrates mixed-signal circuit design, real-time embedded control, and 2000x dynamic range measurement capability.
+A precision analog sensor interface featuring a transimpedance amplifier with microcontroller-driven automatic feedback resistor switching. Prevents saturation and amplifies weak signals. Demonstrates mixed-signal circuit design, real-time embedded control, and 2000x dynamic range measurement capability.
 
 ## Project Motivation
 This project demonstrates core concepts essential for flight control systems:
@@ -12,7 +12,7 @@ This project demonstrates core concepts essential for flight control systems:
  ## Problem Statement
 - Photodiode sensors operating across varying light conditions, designed to avoid weak signals or saturation, require either:
 (1) **fixed gain**- limited dynamic range, poor resoluion in dim/bright conditions
-(2) **Manual gain adjustment**- Requires tedious user intervention, impracticla for autonomous systems
+(2) **Manual gain adjustment**- Requires tedious user intervention, impractical for autonomous systems
 
   **Solution:** Microcontroller-driven multiplexed feedback network with autonomous gain optimization, enabling continuous operation across varying light conditions.
 
@@ -34,7 +34,12 @@ This project demonstrates core concepts essential for flight control systems:
 #### 10KΩ, 100KΩ, 1MΩ, 3.3MΩ resistors
 - Selected to account for extremely weak signals and oversaturating signals. Allows for wide dynamic range.
 #### Arduino nano every microcontroller
-- 
-### Design approach: Auto ranging programmable gain network
+- Good for embedded control and many peripherals to utilize or have available for modifications/upgrades.
+#### 47pF-100pF feedback transistor
+- good balance for smoothing signal at the expense/tradeoff of bandwidth and response time.
+  
+### system functionality: Auto ranging programmable gain network
+
+The Photodiode (configured in reverse bias) feeds into the inverting input of the Operational amplifier (Op-Amp) which has a trans impedance amplifier (TIA) configuration. The inverting input also receives the feedback transistor and feedback resistors. The common pin of the Mulitiplexer (MUX) is sent to the inverting node of the TIA. The channels 0-3 each respectively hold a resistor value and connect to the output (pin 6) of the TIA. The channel select pins of the MUX (A, B, C respectively) connect to the digital pins 2, 3, 4 of the microcontroller. The non-inverting node of the TIA goes to ground holding both nodes, ideally, at zero. The output of the TIA then feeds into the non-inverting input of a buffer circuit. The buffer circuit is also an Op-Amp but configured as a voltage follower. This is included to reduce too much loading on any part of the circuit. The inverting node has a wire connected to the output. The output of the buffer circuit then feeds into the Arduino Nano Every A0 pin which is an analog input pin. All ground pins are connected for TIA, MUX, buffer, and microcontroller. The TIA, MUX, and buffer are all dual power supply integrated circuits (IC's) and referenced with ####± 5 volts. The microcontroller however has been powered by my PC. 
 
 
