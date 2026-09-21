@@ -1,4 +1,5 @@
 # Programmable-gain-photodiode-sensor-with-auto-ranging-network
+# Brian Beasley
 
 A precision analog sensor interface featuring a transimpedance amplifier with microcontroller-driven automatic feedback resistor switching. Prevents saturation and amplifies weak signals. Demonstrates mixed-signal circuit design, real-time embedded control, and 2000x dynamic range measurement capability. (Actual code at end of file).
 
